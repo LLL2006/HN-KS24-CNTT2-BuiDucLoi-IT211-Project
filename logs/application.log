@@ -1943,3 +1943,8 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 2026-06-11T15:19:56.115+07:00  INFO 10936 --- [IT211-Project] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-06-11T15:19:56.118+07:00  INFO 10936 --- [IT211-Project] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-06-11T15:19:56.126+07:00  INFO 10936 --- [IT211-Project] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-06-11T16:16:27.877+07:00  INFO 18332 --- [IT211-Project] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-06-11T16:16:27.957+07:00  INFO 18332 --- [IT211-Project] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-06-11T16:16:27.973+07:00  INFO 18332 --- [IT211-Project] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-06-11T16:16:27.976+07:00  INFO 18332 --- [IT211-Project] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-06-11T16:16:27.980+07:00  INFO 18332 --- [IT211-Project] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

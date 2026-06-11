@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class UserMapper {
-
-    private final CompanyMapper companyMapper;
 
     public UserResponse toResponse(User user) {
         if (user == null) {

@@ -4,6 +4,5 @@ public enum JobStatus {
     PENDING,
     APPROVED,
     REJECTED,
-    OPEN,
     CLOSED
 }
