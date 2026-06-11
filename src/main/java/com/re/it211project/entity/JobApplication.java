@@ -29,6 +29,9 @@ public class JobApplication {
     @Column(length = 2000)
     private String coverLetter;
 
+    @Column(length = 1000)
+    private String feedback;
+
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 

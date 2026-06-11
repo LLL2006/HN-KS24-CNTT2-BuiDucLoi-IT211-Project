@@ -1,8 +1,8 @@
 package com.re.it211project.config;
 
-import com.re.it211project.repository.TokenBlacklistRepository;
 import com.re.it211project.security.CustomUserDetailsService;
 import com.re.it211project.security.JwtProvider;
+import com.re.it211project.service.TokenBlacklistService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final CustomUserDetailsService customUserDetailsService;
-    private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null
                 && jwtProvider.validateToken(token)
-                && !tokenBlacklistRepository.existsByToken(token)) {
+                && !tokenBlacklistService.isBlacklisted(token)) {
 
             String username = jwtProvider.getUsernameFromToken(token);
 

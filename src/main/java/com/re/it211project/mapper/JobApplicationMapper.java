@@ -20,6 +20,7 @@ public class JobApplicationMapper {
         return JobApplicationResponse.builder()
                 .id(application.getId())
                 .coverLetter(application.getCoverLetter())
+                .feedback(application.getFeedback())
                 .cvUrl(application.getCandidate().getCvUrl())
                 .status(application.getStatus())
                 .appliedAt(application.getAppliedAt())

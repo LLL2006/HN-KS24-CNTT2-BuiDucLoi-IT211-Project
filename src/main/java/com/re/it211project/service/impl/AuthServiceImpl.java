@@ -6,7 +6,6 @@ import com.re.it211project.dto.request.RegisterRequest;
 import com.re.it211project.dto.response.AuthResponse;
 import com.re.it211project.entity.Company;
 import com.re.it211project.entity.Role;
-import com.re.it211project.entity.TokenBlacklist;
 import com.re.it211project.entity.User;
 import com.re.it211project.enums.RoleName;
 import com.re.it211project.enums.UserStatus;
@@ -19,14 +18,13 @@ import com.re.it211project.security.CustomUserDetails;
 import com.re.it211project.security.JwtProvider;
 import com.re.it211project.service.AuthService;
 import com.re.it211project.service.RefreshTokenService;
+import com.re.it211project.service.TokenBlacklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.ZoneId;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final CompanyRepository companyRepository;
-    private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final TokenBlacklistService tokenBlacklistService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
@@ -44,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new ConflictException("Username đã tồn tại");
@@ -152,17 +151,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy user"));
 
-        TokenBlacklist blacklist = TokenBlacklist.builder()
-                .token(token)
-                .expiredAt(
-                        jwtProvider.getExpirationFromToken(token)
-                                .toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDateTime()
-                )
-                .build();
-
-        tokenBlacklistRepository.save(blacklist);
+        tokenBlacklistService.blacklistToken(
+                token,
+                jwtProvider.getExpirationFromToken(token)
+        );
 
         refreshTokenRepository.deleteByUser(user);
     }

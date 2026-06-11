@@ -16,6 +16,8 @@ public class JobApplicationResponse {
 
     private String coverLetter;
 
+    private String feedback;
+
     private String cvUrl;
 
     private ApplicationStatus status;

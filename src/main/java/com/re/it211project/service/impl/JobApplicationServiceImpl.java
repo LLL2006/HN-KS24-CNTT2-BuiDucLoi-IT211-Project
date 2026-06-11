@@ -99,10 +99,13 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
         if (application.getStatus() == ApplicationStatus.ACCEPTED
                 || application.getStatus() == ApplicationStatus.REJECTED) {
-            throw new BadRequestException("Hồ sơ đã được xử lý trước đó");
+            throw new BadRequestException(
+                    "Hồ sơ đã được xử lý trước đó"
+            );
         }
 
         application.setStatus(request.getStatus());
+        application.setFeedback(request.getFeedback());
 
         return jobApplicationMapper.toResponse(
                 jobApplicationRepository.save(application)

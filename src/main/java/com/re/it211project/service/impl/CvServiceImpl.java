@@ -1,5 +1,7 @@
 package com.re.it211project.service.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.re.it211project.dto.response.CvResponse;
 import com.re.it211project.entity.User;
 import com.re.it211project.exception.BadRequestException;
@@ -11,14 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class CvServiceImpl implements CvService {
 
     private final UserRepository userRepository;
+    private final Cloudinary cloudinary;
 
     @Override
     public CvResponse uploadCv(MultipartFile file) {
@@ -27,23 +30,18 @@ public class CvServiceImpl implements CvService {
         PdfFileValidator.validate(file);
 
         try {
-            String uploadDir = System.getProperty("user.dir") + "/uploads/cv/";
+            Map uploadResult = cloudinary.uploader().upload(
+                    file.getBytes(),
+                    ObjectUtils.asMap(
+                            "resource_type", "auto",
+                            "folder", "job-portal/cv",
+                            "public_id", System.currentTimeMillis()
+                                    + "_"
+                                    + file.getOriginalFilename()
+                    )
+            );
 
-            File dir = new File(uploadDir);
-
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            String fileName = System.currentTimeMillis()
-                    + "_"
-                    + file.getOriginalFilename();
-
-            File destination = new File(uploadDir + fileName);
-
-            file.transferTo(destination);
-
-            String cvUrl = "/uploads/cv/" + fileName;
+            String cvUrl = uploadResult.get("secure_url").toString();
 
             user.setCvUrl(cvUrl);
             userRepository.save(user);
@@ -53,7 +51,7 @@ public class CvServiceImpl implements CvService {
                     .build();
 
         } catch (IOException e) {
-            throw new BadRequestException("Upload CV thất bại");
+            throw new BadRequestException("Upload CV lên Cloudinary thất bại");
         }
     }
 

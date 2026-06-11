@@ -13,4 +13,7 @@ public class UpdateApplicationStatusRequest {
 
     @NotNull(message = "Trạng thái hồ sơ không được để trống")
     private ApplicationStatus status;
+
+    @NotNull(message = "Phản hồi không được để trống")
+    private String feedback;
 }
