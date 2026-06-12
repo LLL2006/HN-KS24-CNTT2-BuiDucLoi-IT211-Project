@@ -4,6 +4,7 @@ import com.re.it211project.dto.request.LoginRequest;
 import com.re.it211project.dto.request.RefreshTokenRequest;
 import com.re.it211project.dto.request.RegisterRequest;
 import com.re.it211project.dto.response.AuthResponse;
+import com.re.it211project.dto.response.RegisterResponse;
 import com.re.it211project.entity.Company;
 import com.re.it211project.entity.Role;
 import com.re.it211project.entity.User;
@@ -43,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new ConflictException("Username đã tồn tại");
         }
@@ -85,17 +86,11 @@ public class AuthServiceImpl implements AuthService {
 
         user = userRepository.save(user);
 
-        CustomUserDetails userDetails = new CustomUserDetails(user);
-        String accessToken = jwtProvider.generateAccessToken(userDetails);
-        String refreshToken = jwtProvider.generateRefreshToken(userDetails);
-
-        refreshTokenService.createRefreshToken(user, refreshToken);
-
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .user(userMapper.toResponse(user))
+        return RegisterResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
                 .build();
     }
 

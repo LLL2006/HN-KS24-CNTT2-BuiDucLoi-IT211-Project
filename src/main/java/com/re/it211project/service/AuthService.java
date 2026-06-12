@@ -4,10 +4,11 @@ import com.re.it211project.dto.request.LoginRequest;
 import com.re.it211project.dto.request.RefreshTokenRequest;
 import com.re.it211project.dto.request.RegisterRequest;
 import com.re.it211project.dto.response.AuthResponse;
+import com.re.it211project.dto.response.RegisterResponse;
 
 public interface AuthService {
 
-    AuthResponse register(RegisterRequest request);
+    RegisterResponse register(RegisterRequest request);
 
     AuthResponse login(LoginRequest request);
 

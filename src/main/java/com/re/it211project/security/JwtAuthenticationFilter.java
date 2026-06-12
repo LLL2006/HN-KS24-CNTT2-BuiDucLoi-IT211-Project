@@ -1,7 +1,5 @@
-package com.re.it211project.config;
+package com.re.it211project.security;
 
-import com.re.it211project.security.CustomUserDetailsService;
-import com.re.it211project.security.JwtProvider;
 import com.re.it211project.service.TokenBlacklistService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

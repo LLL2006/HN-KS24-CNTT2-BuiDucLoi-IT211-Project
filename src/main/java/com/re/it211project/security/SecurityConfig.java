@@ -1,6 +1,5 @@
-package com.re.it211project.config;
+package com.re.it211project.security;
 
-import com.re.it211project.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

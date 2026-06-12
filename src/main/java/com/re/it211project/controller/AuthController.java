@@ -5,6 +5,7 @@ import com.re.it211project.dto.request.RefreshTokenRequest;
 import com.re.it211project.dto.request.RegisterRequest;
 import com.re.it211project.dto.response.ApiResponse;
 import com.re.it211project.dto.response.AuthResponse;
+import com.re.it211project.dto.response.RegisterResponse;
 import com.re.it211project.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +21,18 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<AuthResponse>> register(
+    public ResponseEntity<ApiResponse<RegisterResponse>> register(
             @Valid @RequestBody RegisterRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiResponse.<AuthResponse>builder()
-                        .success(true)
-                        .message("Đăng ký thành công")
-                        .data(authService.register(request))
-                        .build()
-        );
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(
+                        ApiResponse.<RegisterResponse>builder()
+                                .success(true)
+                                .message("Đăng ký thành công")
+                                .data(authService.register(request))
+                                .build()
+                );
     }
 
     @PostMapping("/login")
